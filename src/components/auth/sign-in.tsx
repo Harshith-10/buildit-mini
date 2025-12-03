@@ -107,16 +107,7 @@ export default function SignIn() {
       <CardFooter>
         <div className="flex justify-center w-full border-t py-4">
           <p className="text-center text-xs text-neutral-500">
-            built with{" "}
-            <Link
-              href="https://better-auth.com"
-              className="underline"
-              target="_blank"
-            >
-              <span className="dark:text-white/70 cursor-pointer">
-                better-auth.
-              </span>
-            </Link>
+            Built with 💓 @ IARE
           </p>
         </div>
       </CardFooter>
