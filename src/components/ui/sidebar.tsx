@@ -6,7 +6,7 @@ import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import type { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetContent,
@@ -357,14 +357,7 @@ function SidebarSeparator({
   className,
   ...props
 }: React.ComponentProps<typeof Separator>) {
-  return (
-    <Separator
-      data-slot="sidebar-separator"
-      data-sidebar="separator"
-      className={cn("bg-sidebar-border mx-2 w-auto", className)}
-      {...props}
-    />
-  );
+  return <div className="bg-sidebar-border w-auto h-0.25 mx-2" />;
 }
 
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
