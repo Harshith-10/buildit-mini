@@ -117,7 +117,7 @@ export default function SignIn() {
                 await signIn.social(
                   {
                     provider: "google",
-                    callbackURL: "/dashboard",
+                    callbackURL: "/student/dashboard",
                   },
                   {
                     onRequest: (_ctx) => {
