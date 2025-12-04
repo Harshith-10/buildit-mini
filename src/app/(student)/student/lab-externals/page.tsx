@@ -16,7 +16,7 @@ interface Hackathon {
 }
 
 export default function LabExternalsPage() {
-    const [activeTab, setActiveTab] = useState<string>("all");
+    const [activeTab, setActiveTab] = useState<string>("upcoming");
     const [searchQuery, setSearchQuery] = useState<string>("");
 
     const allHackathons: Hackathon[] = [
@@ -183,21 +183,21 @@ export default function LabExternalsPage() {
                             className="flex flex-col gap-3 sm:gap-4 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 bg-card border border-border hover:border-border/80 transition-all hover:shadow-lg h-full"
                         >
                             <div className="flex flex-col gap-3 sm:gap-4 flex-1">
-                            <div className="flex justify-between items-start gap-2">
-                                <h3 className="text-base sm:text-lg font-bold text-card-foreground flex-1">
-                                    {hackathon.title}
-                                </h3>
-                                <span className="inline-flex items-center rounded-full bg-primary/20 px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-primary shrink-0">
-                                    {hackathon.status}
-                                </span>
-                            </div>
-                            <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3">
-                                {hackathon.description}
-                            </p>
-                            <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
-                                <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
-                                <span className="truncate">{hackathon.startDate}</span>
-                            </div>
+                                <div className="flex justify-between items-start gap-2">
+                                    <h3 className="text-base sm:text-lg font-bold text-card-foreground flex-1">
+                                        {hackathon.title}
+                                    </h3>
+                                    <span className="inline-flex items-center rounded-full bg-primary/20 px-2 sm:px-3 py-0.5 sm:py-1 text-[10px] sm:text-xs font-medium text-primary shrink-0">
+                                        {hackathon.status}
+                                    </span>
+                                </div>
+                                <p className="text-xs sm:text-sm text-muted-foreground line-clamp-3">
+                                    {hackathon.description}
+                                </p>
+                                <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm text-muted-foreground">
+                                    <Calendar className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
+                                    <span className="truncate">{hackathon.startDate}</span>
+                                </div>
                             </div>
                             <button
                                 className={`w-full rounded-lg py-2 sm:py-2.5 text-xs sm:text-sm font-semibold transition-all ${hackathon.buttonVariant === "primary"
