@@ -1,7 +1,5 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { emailOTP } from "better-auth/plugins";
-import nodemailer from "nodemailer";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
 import { parseRollNumber } from "./jntu";
@@ -11,7 +9,6 @@ export const auth = betterAuth({
     enabled: true,
     async sendResetPassword(_data, _request) {
       // Send an email to the user with a link to reset their password
-      
     },
   },
   socialProviders: {

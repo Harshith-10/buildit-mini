@@ -8,7 +8,7 @@ interface UserRoleData {
   role: UserRole;
   user?: typeof useSession extends () => { data: { user: infer U } | null }
     ? U
-    : any;
+    : unknown;
   studentDetails?: typeof students.$inferSelect;
   adminDetails?: typeof admins.$inferSelect;
 }

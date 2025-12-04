@@ -1,3 +1,5 @@
+import { LogOut } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import {
@@ -8,8 +10,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useUserRole } from "@/hooks/use-user-role";
 import { authClient } from "@/lib/auth-client";
-import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 interface UserCardProps {
   size?: "default" | "sm";

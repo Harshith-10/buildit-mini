@@ -35,7 +35,15 @@ const formSchema = z.object({
 });
 
 interface QuestionFormProps {
-  initialData?: any; // Replace with proper type
+  initialData?: {
+    title?: string;
+    description?: string;
+    constraints?: string;
+    challenges?: string;
+    subjectId?: string;
+    examples?: { input: string; output: string }[];
+    testCases?: { input: string; output: string }[];
+  };
   subjects: { id: string; title: string }[];
   onSuccess?: () => void;
 }

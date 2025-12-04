@@ -1,7 +1,7 @@
 "use client";
 
+import { BookOpen, Calendar, Library, TrendingUp, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BookOpen, Calendar, Library, Users, TrendingUp } from "lucide-react";
 
 interface StatsCardsProps {
   stats: {

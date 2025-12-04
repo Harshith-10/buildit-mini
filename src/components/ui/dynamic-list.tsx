@@ -43,7 +43,7 @@ export function DynamicList({ items, setItems, label }: DynamicListProps) {
       </div>
       {items.map((item, index) => (
         <div
-          key={index}
+          key={`item-${index}-${item.input.slice(0, 10)}`}
           className="flex gap-4 items-start border p-4 rounded-md relative group"
         >
           <div className="flex-1 space-y-2">

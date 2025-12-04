@@ -1,8 +1,8 @@
 import { config } from "dotenv";
+import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Client } from "pg";
 import * as schema from "../src/db/schema";
-import { eq } from "drizzle-orm";
 
 config({ path: ".env.local" });
 

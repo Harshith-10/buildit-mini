@@ -1,7 +1,17 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  ArrowRight,
+  BookOpen,
+  Calendar,
+  Clock,
+  FileCode,
+  Loader2,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,17 +19,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import {
-  Calendar,
-  Clock,
-  FileCode,
-  Loader2,
-  ArrowRight,
-  BookOpen,
-} from "lucide-react";
 
 interface LabExternal {
   id: string;
@@ -144,7 +144,7 @@ export default function LabExternalsPage() {
           {externals.map((external) => {
             const { status, label } = getExamStatus(
               external.schedule,
-              external.duration
+              external.duration,
             );
 
             return (
@@ -214,12 +214,14 @@ export default function LabExternalsPage() {
                                 </span>
                               </div>
                               <div className="flex items-center gap-3">
-                                <Badge variant="outline">{eq.marks} marks</Badge>
+                                <Badge variant="outline">
+                                  {eq.marks} marks
+                                </Badge>
                                 <Button
                                   size="sm"
                                   onClick={() =>
                                     router.push(
-                                      `/student/lab-externals/${external.id}/${eq.question.id}`
+                                      `/student/lab-externals/${external.id}/${eq.question.id}`,
                                     )
                                   }
                                 >
@@ -238,7 +240,9 @@ export default function LabExternalsPage() {
                   {status !== "ongoing" && (
                     <div className="pt-2">
                       <Button
-                        variant={status === "upcoming" ? "outline" : "secondary"}
+                        variant={
+                          status === "upcoming" ? "outline" : "secondary"
+                        }
                         disabled={status === "completed"}
                         className="w-full sm:w-auto"
                       >

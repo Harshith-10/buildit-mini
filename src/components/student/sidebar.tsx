@@ -1,20 +1,15 @@
 "use client";
 
 import {
-  BookOpen,
-  Calendar,
   Command,
   FileCode,
   GraduationCap,
   LayoutDashboard,
-  Library,
   LifeBuoy,
   Send,
-  Users,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import type * as React from "react";
-import ThemeToggle from "@/components/common/theme-toggle";
 import {
   Sidebar,
   SidebarContent,
@@ -27,56 +22,14 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { useUserRole } from "@/hooks/use-user-role";
-import { NavUser } from "./nav-user";
 
-// Menu items for Admin
-const adminNavMain = [
+const navItems = [
   {
     title: "Platform",
     items: [
       {
         title: "Dashboard",
-        url: "/admin/dashboard",
-        icon: LayoutDashboard,
-      },
-      {
-        title: "Lab Subjects",
-        url: "/admin/subjects",
-        icon: BookOpen,
-      },
-      {
-        title: "Question Bank",
-        url: "/admin/questions",
-        icon: Library,
-      },
-      {
-        title: "Externals",
-        url: "/admin/externals",
-        icon: Calendar,
-      },
-    ],
-  },
-  {
-    title: "Management",
-    items: [
-      {
-        title: "Users & Groups",
-        url: "/admin/users",
-        icon: Users,
-      },
-    ],
-  },
-];
-
-// Menu items for Student
-const studentNavMain = [
-  {
-    title: "Platform",
-    items: [
-      {
-        title: "Dashboard",
-        url: "/student/dashboard",
+        url: "/student",
         icon: LayoutDashboard,
       },
       {
@@ -106,16 +59,10 @@ const secondaryItems = [
   },
 ];
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { role } = useUserRole();
+export default function StudentSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
-
-  const navGroups =
-    role === "admin" || role === "super_admin"
-      ? adminNavMain
-      : role === "student"
-        ? studentNavMain
-        : [];
 
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
@@ -123,13 +70,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/">
+              <a href="/student">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />
                 </div>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-semibold">BuildIT</span>
-                  <span className="truncate text-xs">Enterprise</span>
+                  <span className="truncate text-xs">Student Portal</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -137,7 +84,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        {navGroups.map((group) => (
+        {navItems.map((group) => (
           <SidebarGroup key={group.title}>
             <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
             <SidebarGroupContent>
@@ -165,11 +112,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         ))}
 
         <SidebarGroup className="mt-auto">
+          <SidebarGroupLabel>Help</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {secondaryItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild size="sm">
+                  <SidebarMenuButton asChild tooltip={item.title}>
                     <a href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
@@ -182,10 +130,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="flex items-center justify-between p-2">
-          <ThemeToggle />
+        <div className="p-2 text-xs text-muted-foreground text-center">
+          © 2024 BuildIT
         </div>
-        <NavUser />
       </SidebarFooter>
     </Sidebar>
   );

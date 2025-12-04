@@ -1,5 +1,6 @@
 "use client";
 
+import { Plus } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   type User,
@@ -10,11 +11,10 @@ import {
   columns as groupColumns,
   type StudentGroup,
 } from "@/components/admin/users/groups-columns";
+import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 // Mock data for users
 const MOCK_USERS: User[] = [

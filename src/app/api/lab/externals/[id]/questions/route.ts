@@ -47,7 +47,7 @@ export async function DELETE(
   _req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { id } = await params; // externalId
+  const { id: _externalId } = await params; // externalId
   // This DELETE is tricky because we need the specific labExternalQuestion ID, not just externalId.
   // But the route is /api/lab/externals/[id]/questions.
   // Usually we'd pass the question link ID in the body or query param, or have a separate route /api/lab/external-questions/[id].

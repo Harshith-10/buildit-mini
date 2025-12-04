@@ -355,9 +355,11 @@ function SidebarFooter({ className, ...props }: React.ComponentProps<"div">) {
 
 function SidebarSeparator({
   className,
-  ...props
+  ..._props
 }: React.ComponentProps<typeof Separator>) {
-  return <div className="bg-sidebar-border w-auto h-0.25 mx-2" />;
+  return (
+    <div className={cn("bg-sidebar-border w-auto h-0.25 mx-2", className)} />
+  );
 }
 
 function SidebarContent({ className, ...props }: React.ComponentProps<"div">) {
