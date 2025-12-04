@@ -1,139 +1,84 @@
 "use client";
 
 import {
-  Command,
-  FileCode,
-  GraduationCap,
-  LayoutDashboard,
-  LifeBuoy,
-  Send,
-} from "lucide-react";
-import { usePathname } from "next/navigation";
-import type * as React from "react";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
+    Sidebar,
+    SidebarContent,
+    SidebarFooter,
+    SidebarHeader,
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    SidebarSeparator,
+    SidebarTrigger,
+    useSidebar,
 } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+import { Home, FlaskConical } from "lucide-react";
+import Link from "next/link";
+import { NavUser } from "../dashboard/nav-user";
 
-const navItems = [
-  {
-    title: "Platform",
-    items: [
-      {
+interface NavItem {
+    title: string;
+    icon: React.ReactNode;
+    route: string;
+}
+
+const navigationItems: NavItem[] = [
+    {
         title: "Dashboard",
-        url: "/student",
-        icon: LayoutDashboard,
-      },
-      {
+        icon: <Home className="size-4" />,
+        route: "/student/dashboard",
+    },
+    {
         title: "Lab Externals",
-        url: "/student/lab-externals",
-        icon: FileCode,
-      },
-      {
-        title: "History",
-        url: "/student/history",
-        icon: GraduationCap,
-      },
-    ],
-  },
+        icon: <FlaskConical className="size-4" />,
+        route: "/student/lab-externals",
+    },
 ];
 
-const secondaryItems = [
-  {
-    title: "Support",
-    url: "#",
-    icon: LifeBuoy,
-  },
-  {
-    title: "Feedback",
-    url: "#",
-    icon: Send,
-  },
-];
+export default function StudentSidebar() {
+    const { state } = useSidebar();
+    const isCollapsed = state === "collapsed";
 
-export default function StudentSidebar({
-  ...props
-}: React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname();
-
-  return (
-    <Sidebar variant="inset" collapsible="icon" {...props}>
-      <SidebarHeader>
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton size="lg" asChild>
-              <a href="/student">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+    return (
+        <Sidebar variant="inset" collapsible="icon">
+            <SidebarHeader
+                className={cn(
+                    "flex items-center justify-between p-4",
+                    isCollapsed ? "flex-col gap-2" : "flex-row"
+                )}
+            >
+                <div className="flex items-center gap-2">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                        <span className="text-sm font-bold">B</span>
+                    </div>
+                    {!isCollapsed && (
+                        <span className="font-semibold text-foreground">BuildIt</span>
+                    )}
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-semibold">BuildIT</span>
-                  <span className="truncate text-xs">Student Portal</span>
-                </div>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
-      </SidebarHeader>
-      <SidebarContent>
-        {navItems.map((group) => (
-          <SidebarGroup key={group.title}>
-            <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {group.items.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton
-                      asChild
-                      isActive={
-                        pathname === item.url ||
-                        pathname.startsWith(`${item.url}/`)
-                      }
-                      tooltip={item.title}
-                    >
-                      <a href={item.url}>
-                        <item.icon />
-                        <span>{item.title}</span>
-                      </a>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        ))}
+                <SidebarTrigger />
+            </SidebarHeader>
 
-        <SidebarGroup className="mt-auto">
-          <SidebarGroupLabel>Help</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {secondaryItems.map((item) => (
-                <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild tooltip={item.title}>
-                    <a href={item.url}>
-                      <item.icon />
-                      <span>{item.title}</span>
-                    </a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-      <SidebarFooter>
-        <div className="p-2 text-xs text-muted-foreground text-center">
-          © 2024 BuildIT
-        </div>
-      </SidebarFooter>
-    </Sidebar>
-  );
+            <SidebarSeparator />
+
+            <SidebarContent className="px-2 py-4">
+                <SidebarMenu>
+                    {navigationItems.map((item) => (
+                        <SidebarMenuItem key={item.route}>
+                            <SidebarMenuButton asChild tooltip={item.title}>
+                                <Link href={item.route}>
+                                    {item.icon}
+                                    <span>{item.title}</span>
+                                </Link>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    ))}
+                </SidebarMenu>
+            </SidebarContent>
+
+            <SidebarFooter>
+                <NavUser />
+            </SidebarFooter>
+        </Sidebar>
+    );
 }
