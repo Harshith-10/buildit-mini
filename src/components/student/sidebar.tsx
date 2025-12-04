@@ -12,11 +12,10 @@ import {
     SidebarTrigger,
     useSidebar,
 } from "@/components/ui/sidebar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import { Home, FlaskConical } from "lucide-react";
 import Link from "next/link";
-import { Separator } from "@radix-ui/react-context-menu";
+import { NavUser } from "../dashboard/nav-user";
 
 interface NavItem {
     title: string;
@@ -28,7 +27,7 @@ const navigationItems: NavItem[] = [
     {
         title: "Dashboard",
         icon: <Home className="size-4" />,
-        route: "/student",
+        route: "/student/dashboard",
     },
     {
         title: "Lab Externals",
@@ -36,14 +35,6 @@ const navigationItems: NavItem[] = [
         route: "/student/lab-externals",
     },
 ];
-
-// Sample user data - replace with actual user data from your auth system
-const userData = {
-    name: "John Doe",
-    email: "john.doe@example.com",
-    avatar: "/avatars/user.png",
-    fallback: "JD",
-};
 
 export default function StudentSidebar() {
     const { state } = useSidebar();
@@ -85,33 +76,8 @@ export default function StudentSidebar() {
                 </SidebarMenu>
             </SidebarContent>
 
-            <SidebarFooter className="p-2">
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton
-                            size="lg"
-                            className={cn(
-                                "data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground",
-                                isCollapsed ? "justify-center" : ""
-                            )}
-                        >
-                            <Avatar className="h-8 w-8">
-                                <AvatarImage src={userData.avatar} alt={userData.name} />
-                                <AvatarFallback className="bg-primary text-primary-foreground">
-                                    {userData.fallback}
-                                </AvatarFallback>
-                            </Avatar>
-                            {!isCollapsed && (
-                                <div className="flex flex-col items-start text-left">
-                                    <span className="text-sm font-medium">{userData.name}</span>
-                                    <span className="text-xs text-muted-foreground">
-                                        {userData.email}
-                                    </span>
-                                </div>
-                            )}
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
+            <SidebarFooter>
+                <NavUser />
             </SidebarFooter>
         </Sidebar>
     );
