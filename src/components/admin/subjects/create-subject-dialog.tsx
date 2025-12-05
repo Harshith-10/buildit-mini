@@ -35,9 +35,13 @@ const formSchema = z.object({
   batches: z.string().optional(), // Comma separated for simplicity for now
 });
 
-export function CreateSubjectDialog() {
+interface CreateSubjectDialogProps {
+  onSuccess?: () => void;
+}
+
+export function CreateSubjectDialog({ onSuccess }: CreateSubjectDialogProps) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const _router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -76,7 +80,7 @@ export function CreateSubjectDialog() {
       toast.success("Subject created successfully");
       setOpen(false);
       form.reset();
-      router.refresh();
+      onSuccess?.();
     } catch (error) {
       toast.error("Failed to create subject");
       console.error(error);

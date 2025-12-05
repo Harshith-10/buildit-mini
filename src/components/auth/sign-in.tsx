@@ -2,6 +2,7 @@
 
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +23,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const router = useRouter();
 
   return (
     <Card className="max-w-md">
@@ -86,11 +88,15 @@ export default function SignIn() {
                   password,
                 },
                 {
-                  onRequest: (_ctx) => {
+                  onRequest: () => {
                     setLoading(true);
                   },
-                  onResponse: (_ctx) => {
+                  onSuccess: () => {
+                    router.push("/");
+                  },
+                  onError: (ctx) => {
                     setLoading(false);
+                    alert(ctx.error.message || "Sign in failed");
                   },
                 },
               );
@@ -120,10 +126,10 @@ export default function SignIn() {
                     callbackURL: "/",
                   },
                   {
-                    onRequest: (_ctx) => {
+                    onRequest: () => {
                       setLoading(true);
                     },
-                    onResponse: (_ctx) => {
+                    onError: () => {
                       setLoading(false);
                     },
                   },

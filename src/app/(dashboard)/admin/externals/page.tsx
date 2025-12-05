@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   columns,
   type LabExternal,
@@ -13,28 +13,29 @@ export default function LabExternalsPage() {
   const [data, setData] = useState<LabExternal[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("/api/lab/externals");
-        if (res.ok) {
-          const externals = await res.json();
-          setData(externals);
-        }
-      } catch (error) {
-        console.error("Failed to fetch externals", error);
-      } finally {
-        setLoading(false);
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch("/api/lab/externals");
+      if (res.ok) {
+        const externals = await res.json();
+        setData(externals);
       }
+    } catch (error) {
+      console.error("Failed to fetch externals", error);
+    } finally {
+      setLoading(false);
     }
-    fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold tracking-tight">Lab Externals</h1>
-        <CreateExternalDialog />
+        <CreateExternalDialog onSuccess={fetchData} />
       </div>
       {loading ? (
         <div className="space-y-2">

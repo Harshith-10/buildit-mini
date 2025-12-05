@@ -9,6 +9,7 @@ const createExternalSchema = z.object({
   subjectId: z.string().min(1),
   duration: z.number().int().positive(),
   schedule: z.string().datetime(), // Expects ISO string
+  accessPassword: z.string().optional(), // Optional password protection
 });
 
 export async function GET() {
@@ -46,6 +47,7 @@ export async function POST(req: Request) {
         subjectId: data.subjectId,
         duration: data.duration,
         schedule: new Date(data.schedule),
+        accessPassword: data.accessPassword || null,
       })
       .returning();
 

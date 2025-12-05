@@ -35,9 +35,13 @@ const formSchema = z.object({
   regulation: z.string().min(1, "Regulation is required"),
 });
 
-export function CreateGroupDialog() {
+interface CreateGroupDialogProps {
+  onSuccess?: () => void;
+}
+
+export function CreateGroupDialog({ onSuccess }: CreateGroupDialogProps) {
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const _router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -67,7 +71,7 @@ export function CreateGroupDialog() {
       toast.success("Student group created successfully");
       setOpen(false);
       form.reset();
-      router.refresh();
+      onSuccess?.();
     } catch (error) {
       toast.error("Failed to create group");
       console.error(error);

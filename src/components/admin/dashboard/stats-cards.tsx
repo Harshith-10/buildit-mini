@@ -1,6 +1,6 @@
 "use client";
 
-import { BookOpen, Calendar, Library, TrendingUp, Users } from "lucide-react";
+import { BookOpen, Calendar, Library, Users } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface StatsCardsProps {
@@ -8,6 +8,7 @@ interface StatsCardsProps {
     subjects: number;
     questions: number;
     externals: number;
+    upcomingExternals?: number;
     users: number;
   };
   loading: boolean;
@@ -19,29 +20,27 @@ export function StatsCards({ stats, loading }: StatsCardsProps) {
       title: "Total Subjects",
       value: stats.subjects,
       icon: BookOpen,
-      trend: "+2.5%",
-      description: "from last month",
+      description: "lab subjects",
     },
     {
       title: "Question Bank",
       value: stats.questions,
       icon: Library,
-      trend: "+12%",
-      description: "new questions",
+      description: "total questions",
     },
     {
       title: "Scheduled Exams",
       value: stats.externals,
       icon: Calendar,
-      trend: "+4",
-      description: "upcoming",
+      description: stats.upcomingExternals
+        ? `${stats.upcomingExternals} upcoming`
+        : "lab externals",
     },
     {
       title: "Total Users",
       value: stats.users,
       icon: Users,
-      trend: "+8.1%",
-      description: "active users",
+      description: "registered users",
     },
   ];
 
@@ -59,11 +58,7 @@ export function StatsCards({ stats, loading }: StatsCardsProps) {
             ) : (
               <>
                 <div className="text-2xl font-bold">{item.value}</div>
-                <p className="text-xs text-muted-foreground flex items-center gap-1">
-                  <TrendingUp className="h-3 w-3 text-green-500" />
-                  <span className="text-green-500 font-medium">
-                    {item.trend}
-                  </span>
+                <p className="text-xs text-muted-foreground">
                   {item.description}
                 </p>
               </>

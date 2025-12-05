@@ -5,27 +5,42 @@ import { OverviewChart } from "@/components/admin/dashboard/overview-chart";
 import { RecentActivity } from "@/components/admin/dashboard/recent-activity";
 import { StatsCards } from "@/components/admin/dashboard/stats-cards";
 
+interface DashboardStats {
+  subjects: number;
+  questions: number;
+  externals: number;
+  upcomingExternals: number;
+  users: number;
+}
+
 export default function AdminDashboardPage() {
-  // TODO: Fetch real stats
-  const [stats, setStats] = useState({
+  const [stats, setStats] = useState<DashboardStats>({
     subjects: 0,
     questions: 0,
     externals: 0,
+    upcomingExternals: 0,
     users: 0,
   });
   const [loading, setLoading] = useState(true);
+  const [_error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    // Simulate fetching stats
-    setTimeout(() => {
-      setStats({
-        subjects: 5,
-        questions: 120,
-        externals: 2,
-        users: 450,
-      });
-      setLoading(false);
-    }, 1000);
+    async function fetchStats() {
+      try {
+        const response = await fetch("/api/admin/dashboard/stats");
+        if (!response.ok) {
+          throw new Error("Failed to fetch dashboard stats");
+        }
+        const data = await response.json();
+        setStats(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchStats();
   }, []);
 
   return (

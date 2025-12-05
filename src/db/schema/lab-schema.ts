@@ -56,6 +56,7 @@ export const labExternals = pgTable("lab_externals", {
     .notNull(),
   duration: integer("duration").notNull(), // in minutes
   schedule: timestamp("schedule").notNull(),
+  accessPassword: text("access_password"), // Optional password to access the exam
   ...timestamps,
 });
 
