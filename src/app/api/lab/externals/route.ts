@@ -2,7 +2,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/db";
-import { labExternals } from "@/db/schema";
+import { labExternalQuestions, labExternals } from "@/db/schema";
 import { getUserContext, requireRole } from "@/lib/proxy";
 
 const createExternalSchema = z.object({
@@ -10,6 +10,10 @@ const createExternalSchema = z.object({
   duration: z.number().int().positive(),
   schedule: z.string().datetime(), // Expects ISO string
   accessPassword: z.string().optional(), // Optional password protection
+  questions: z.array(z.object({
+    questionId: z.string().min(1),
+    marks: z.number().int().positive(),
+  })).optional(),
 });
 
 export async function GET() {
@@ -50,6 +54,19 @@ export async function POST(req: Request) {
         accessPassword: data.accessPassword || null,
       })
       .returning();
+
+    const externalId = newExternal[0].id;
+
+    // Insert questions if provided
+    if (data.questions && data.questions.length > 0) {
+      await db.insert(labExternalQuestions).values(
+        data.questions.map((q) => ({
+          externalId,
+          questionId: q.questionId,
+          marks: q.marks,
+        }))
+      );
+    }
 
     return NextResponse.json(newExternal[0]);
   } catch (error) {

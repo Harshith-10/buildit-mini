@@ -1,8 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  columns,
+  createColumns,
   type LabExternal,
 } from "@/components/admin/externals/columns";
 import { CreateExternalDialog } from "@/components/admin/externals/create-external-dialog";
@@ -30,6 +30,18 @@ export default function LabExternalsPage() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const handleDelete = useCallback(async (id: string) => {
+    const res = await fetch(`/api/lab/externals/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error("Failed to delete external exam");
+    }
+    await fetchData();
+  }, [fetchData]);
+
+  const columns = useMemo(() => createColumns(handleDelete), [handleDelete]);
 
   return (
     <div className="flex flex-col gap-4">

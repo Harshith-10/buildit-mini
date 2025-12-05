@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { and, count, eq, ilike, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { db } from "@/db";
@@ -15,7 +15,7 @@ const createQuestionSchema = z.object({
   subjectId: z.string().optional(), // Optional initially, can be linked later
 });
 
-export async function GET() {
+export async function GET(req: Request) {
   const context = await getUserContext();
   if (!requireRole(context, ["admin", "super_admin", "student"])) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -31,11 +31,40 @@ export async function GET() {
     return NextResponse.json({ error: "Forbidden" }, { status: 403 });
   }
 
+  const { searchParams } = new URL(req.url);
+  const search = searchParams.get("search") || "";
+  const limit = parseInt(searchParams.get("limit") || "10", 10);
+  const offset = parseInt(searchParams.get("offset") || "0", 10);
+
+  // Build the where clause
+  const whereConditions = [eq(labQuestions.isDeleted, false)];
+  if (search) {
+    whereConditions.push(
+      or(
+        ilike(labQuestions.title, `%${search}%`),
+        ilike(labQuestions.description, `%${search}%`)
+      )!
+    );
+  }
+
   const questions = await db.query.labQuestions.findMany({
-    where: eq(labQuestions.isDeleted, false),
+    where: and(...whereConditions),
+    limit,
+    offset,
   });
 
-  return NextResponse.json(questions);
+  // Get total count for pagination
+  const totalResult = await db
+    .select({ count: count() })
+    .from(labQuestions)
+    .where(and(...whereConditions));
+  const total = totalResult[0]?.count || 0;
+
+  return NextResponse.json({
+    questions,
+    total,
+    hasMore: offset + questions.length < total,
+  });
 }
 
 export async function POST(req: Request) {

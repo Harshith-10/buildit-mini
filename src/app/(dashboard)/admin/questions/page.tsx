@@ -2,9 +2,9 @@
 
 import { Plus } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  columns,
+  createColumns,
   type LabQuestion,
 } from "@/components/admin/questions/columns";
 import { Button } from "@/components/ui/button";
@@ -15,22 +15,35 @@ export default function LabQuestionsPage() {
   const [data, setData] = useState<LabQuestion[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await fetch("/api/lab/questions");
-        if (res.ok) {
-          const questions = await res.json();
-          setData(questions);
-        }
-      } catch (error) {
-        console.error("Failed to fetch questions", error);
-      } finally {
-        setLoading(false);
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await fetch("/api/lab/questions");
+      if (res.ok) {
+        const data = await res.json();
+        setData(data.questions);
       }
+    } catch (error) {
+      console.error("Failed to fetch questions", error);
+    } finally {
+      setLoading(false);
     }
-    fetchData();
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const handleDelete = useCallback(async (id: string) => {
+    const res = await fetch(`/api/lab/questions/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      throw new Error("Failed to delete question");
+    }
+    await fetchData();
+  }, [fetchData]);
+
+  const columns = useMemo(() => createColumns(handleDelete), [handleDelete]);
 
   return (
     <div className="flex flex-col gap-4">
