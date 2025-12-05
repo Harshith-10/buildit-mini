@@ -17,7 +17,7 @@ export type LabSubject = {
   id: string;
   title: string;
   description: string | null;
-  batches: string[] | null;
+  branches: string[] | null;
   regulation: string | null;
   createdAt: string;
   updatedAt: string;
@@ -33,16 +33,16 @@ export const columns: ColumnDef<LabSubject>[] = [
     header: "Regulation",
   },
   {
-    accessorKey: "batches",
-    header: "Batches",
+    accessorKey: "branches",
+    header: "Branches",
     cell: ({ row }) => {
-      const batches = row.getValue("batches") as string[] | null;
-      if (!batches || batches.length === 0) return <span>-</span>;
+      const branches = row.getValue("branches") as string[] | null;
+      if (!branches || branches.length === 0) return <span>-</span>;
       return (
         <div className="flex flex-wrap gap-1">
-          {batches.map((batch) => (
-            <Badge key={batch} variant="secondary">
-              {batch}
+          {branches.map((branch) => (
+            <Badge key={branch} variant="secondary">
+              {branch}
             </Badge>
           ))}
         </div>

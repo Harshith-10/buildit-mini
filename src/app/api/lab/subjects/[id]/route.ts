@@ -8,7 +8,7 @@ import { getUserContext, requireRole } from "@/lib/proxy";
 const updateSubjectSchema = z.object({
   title: z.string().min(1).optional(),
   description: z.string().optional(),
-  batches: z.array(z.string()).optional(),
+  branches: z.array(z.string()).optional(),
   regulation: z.string().optional(),
 });
 

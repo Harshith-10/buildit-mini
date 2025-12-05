@@ -32,7 +32,7 @@ const formSchema = z.object({
   title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
   regulation: z.string().optional(),
-  batches: z.string().optional(), // Comma separated for simplicity for now
+  branches: z.string().optional(), // Comma separated for simplicity for now
 });
 
 interface CreateSubjectDialogProps {
@@ -49,14 +49,14 @@ export function CreateSubjectDialog({ onSuccess }: CreateSubjectDialogProps) {
       title: "",
       description: "",
       regulation: "",
-      batches: "",
+      branches: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      const batchesArray = values.batches
-        ? values.batches
+      const branchesArray = values.branches
+        ? values.branches
             .split(",")
             .map((b) => b.trim())
             .filter(Boolean)
@@ -69,7 +69,7 @@ export function CreateSubjectDialog({ onSuccess }: CreateSubjectDialogProps) {
         },
         body: JSON.stringify({
           ...values,
-          batches: batchesArray,
+          branches: branchesArray,
         }),
       });
 
@@ -132,12 +132,12 @@ export function CreateSubjectDialog({ onSuccess }: CreateSubjectDialogProps) {
             />
             <FormField
               control={form.control}
-              name="batches"
+              name="branches"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Batches (comma separated)</FormLabel>
+                  <FormLabel>Branches (comma separated)</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g. Batch A, Batch B" {...field} />
+                    <Input placeholder="e.g. CSE, ECE, EEE" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

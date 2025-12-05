@@ -28,7 +28,7 @@ export const labSubjects = pgTable("lab_subjects", {
     .$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
   description: text("description"),
-  batches: jsonb("batches").$type<string[]>(), // Array of batch names e.g. ["Skill Up Batch 1"]
+  branches: jsonb("branches").$type<string[]>(), // Array of branch names e.g. ["CSE", "ECE"]
   regulation: text("regulation"),
   ...timestamps,
 });

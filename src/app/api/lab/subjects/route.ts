@@ -8,7 +8,7 @@ import { getUserContext, requireRole } from "@/lib/proxy";
 const createSubjectSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
-  batches: z.array(z.string()).optional(),
+  branches: z.array(z.string()).optional(),
   regulation: z.string().optional(),
 });
 
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
       .values({
         title: data.title,
         description: data.description,
-        batches: data.batches,
+        branches: data.branches,
         regulation: data.regulation,
       })
       .returning();
