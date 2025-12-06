@@ -42,7 +42,7 @@ export function NavUser() {
 
   const handleLogout = async () => {
     await authClient.signOut();
-    router.push("/sign-in");
+    router.push("/auth/login");
   };
 
   return (
@@ -87,7 +87,7 @@ export function NavUser() {
                 </div>
               </div>
             </DropdownMenuLabel>
-            <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <Sparkles className="mr-2 h-4 w-4" />
@@ -108,7 +108,7 @@ export function NavUser() {
                 <Bell className="mr-2 h-4 w-4" />
                 Notifications
               </DropdownMenuItem>
-            </DropdownMenuGroup>
+            </DropdownMenuGroup> */}
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
               <LogOut className="mr-2 h-4 w-4" />

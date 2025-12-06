@@ -93,18 +93,18 @@ const studentNavMain = [
   },
 ];
 
-const secondaryItems = [
-  {
-    title: "Support",
-    url: "#",
-    icon: LifeBuoy,
-  },
-  {
-    title: "Feedback",
-    url: "#",
-    icon: Send,
-  },
-];
+// const secondaryItems = [
+//   {
+//     title: "Support",
+//     url: "#",
+//     icon: LifeBuoy,
+//   },
+//   {
+//     title: "Feedback",
+//     url: "#",
+//     icon: Send,
+//   },
+;
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { role } = useUserRole();
@@ -124,12 +124,22 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
               <a href="/">
-                <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                  <Command className="size-4" />
+                <div className="flex aspect- items-center size-10">
+                  {/* Theme-aware logo: logo-dark for dark, logo-light for light */}
+                  <span className="sr-only">BuildIT Logo</span>
+                  <img
+                    src="/buildit-logo.png"
+                    alt="BuildIT Logo Dark"
+                    className="hidden dark:block"
+                  />
+                  <img
+                    src="/buildit-logo.png"
+                    alt="BuildIT Logo Light"
+                    className="block dark:hidden"
+                  />
                 </div>
-                <div className="grid flex-1 text-left text-sm leading-tight">
+                <div className="grid flex-2 text-left text-lg leading-tight pl-2 ">
                   <span className="truncate font-semibold">BuildIT</span>
-                  <span className="truncate text-xs">Enterprise</span>
                 </div>
               </a>
             </SidebarMenuButton>
@@ -164,7 +174,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </SidebarGroup>
         ))}
 
-        <SidebarGroup className="mt-auto">
+        {/* <SidebarGroup className="mt-auto">
           <SidebarGroupContent>
             <SidebarMenu>
               {secondaryItems.map((item) => (
@@ -179,7 +189,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
+        </SidebarGroup> */}
       </SidebarContent>
       <SidebarFooter>
         <div className="flex items-center justify-between p-2">
